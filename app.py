@@ -11,22 +11,22 @@ import detect_mask_image
 def mask_image():
 
 	global image
-	print("[INFO] loading face detector model...")
+	print("loading face detector model...")
 	prototxtPath = os.path.sep.join(["face_detector", "deploy.prototxt"])
 	weightsPath = os.path.sep.join(["face_detector",
 		"res10_300x300_ssd_iter_140000.caffemodel"])
 	net = cv2.dnn.readNet(prototxtPath, weightsPath)
 
-	print("[INFO] loading face mask detector model...")
+	print("loading face mask detector model...")
 	model = load_model("mask_detector.model")
 
 	image = cv2.imread("./images/out.png")
-	(h, w) = image.shape[:2]
+	(height, width) = image.shape[:2]
 
 	blob = cv2.dnn.blobFromImage(image, 1.0, (300, 300),
 		(104.0, 177.0, 123.0))
 
-	print("[INFO] computing face detections...")
+	print("computing face detections...")
 	net.setInput(blob)
 	detections = net.forward()
 
@@ -36,11 +36,11 @@ def mask_image():
 
 		if confidence > 0.5:
 
-			box = detections[0, 0, i, 3:7] * np.array([w, h, w, h])
+			box = detections[0, 0, i, 3:7] * np.array([width, height, width, height])
 			(startX, startY, endX, endY) = box.astype("int")
 
 			(startX, startY) = (max(0, startX), max(0, startY))
-			(endX, endY) = (min(w - 1, endX), min(h - 1, endY))
+			(endX, endY) = (min(width - 1, endX), min(height - 1, endY))
 
 			face = image[startY:endY, startX:endX]
 			face = cv2.cvtColor(face, cv2.COLOR_BGR2RGB)

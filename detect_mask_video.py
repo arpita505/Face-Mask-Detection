@@ -11,7 +11,7 @@ import os
 
 def detect_and_predict_mask(frame, faceNet, maskNet):
 
-	(h, w) = frame.shape[:2]
+	(height, width) = frame.shape[:2]
 	blob = cv2.dnn.blobFromImage(frame, 1.0, (300, 300),
 		(104.0, 177.0, 123.0))
 
@@ -28,11 +28,11 @@ def detect_and_predict_mask(frame, faceNet, maskNet):
 
 		if confidence > args["confidence"]:
 
-			box = detections[0, 0, i, 3:7] * np.array([w, h, w, h])
+			box = detections[0, 0, i, 3:7] * np.array([width, height, width, height])
 			(startX, startY, endX, endY) = box.astype("int")
 
 			(startX, startY) = (max(0, startX), max(0, startY))
-			(endX, endY) = (min(w - 1, endX), min(h - 1, endY))
+			(endX, endY) = (min(width - 1, endX), min(height - 1, endY))
 
 			face = frame[startY:endY, startX:endX]
 			face = cv2.cvtColor(face, cv2.COLOR_BGR2RGB)
