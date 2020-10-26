@@ -16,7 +16,7 @@ Clone this repository in a folder :
     
     git clone https://github.com/arpita505/Face-Mask-Detection.git
     
-Open terminal. Go into the cloned project directory folder and type the following command:
+Open terminal. Go into the cloned project directory folder and type the following command :
 
     python3 train_mask_detector.py --dataset dataset
 
